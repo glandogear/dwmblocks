@@ -1,4 +1,4 @@
-PREFIX := /usr/local
+PREFIX := /home/julongjian
 
 CC := gcc
 CFLAGS := -O3 -Wall -Wextra

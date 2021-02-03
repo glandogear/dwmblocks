@@ -47,7 +47,7 @@ buttonhandler(int sig, siginfo_t *info, void *ucontext)
 {
         sig = info->si_value.sival_int >> 8;
         for (Block *block = blocks; block->pathu; block++)
-                if (block->signal == sig)
+                if (block->signal == sig) {
                         switch (fork()) {
                                 case -1:
                                         perror("buttonhandler - fork");
@@ -64,6 +64,9 @@ buttonhandler(int sig, siginfo_t *info, void *ucontext)
                                         _exit(127);
                                 }
                         }
+                        updateblock(block, NILL);
+                        setroot();
+                }
 }
 
 void
