@@ -142,8 +142,10 @@ sighandler(int sig, siginfo_t *info, void *ucontext)
 {
         sig -= SIGRTMIN;
         for (Block *block = blocks; block->pathu; block++)
-                if (block->signal == sig)
+                if (block->signal == sig) {
                         updateblock(block, info->si_value.sival_int);
+                        updateblock(block, NILL);
+                }
         setroot();
 }
 
@@ -216,7 +218,7 @@ updateblock(Block *block, int sigval)
                                 execv(arg[0], arg);
                         } else {
                                 char buf[12];
-                                char *arg[] = { block->pathu, buf, NULL };
+                                char *arg[] = { block->pathc, buf, NULL };
 
                                 snprintf(buf, sizeof buf, "%d", sigval);
                                 execv(arg[0], arg);
